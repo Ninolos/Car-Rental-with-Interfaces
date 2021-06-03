@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using LocacaoInterface.Entities;
+using LocacaoInterface.Services;
 
 namespace LocacaoInterface
 {
@@ -16,7 +17,19 @@ namespace LocacaoInterface
             Console.Write("Return Data (dd/MM/yyyy hh:mm): ");
             DateTime finish = DateTime.ParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
+            Console.Write("Enter price per hour: ");
+            double hour = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+            Console.Write("Enter price per day: ");
+            double day = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+
             CarRental carRental = new CarRental(start, finish, new Vehicle(model));
+
+            RentalService rentalService = new RentalService(hour, day);
+
+            rentalService.ProcessInvoice(carRental);
+
+            Console.WriteLine("Invoice:");
+            Console.WriteLine(carRental.Invoice);
 
         }
     }
